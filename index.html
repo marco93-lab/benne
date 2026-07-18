@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benne direct — Location de bennes dans les Pyrénées-Orientales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#171B1F;
+    --steel:#3D454D;
+    --steel-light:#5B6570;
+    --orange:#FF5A1F;
+    --orange-dark:#D9450F;
+    --paper:#FFFFFF;
+    --concrete:#C7C2B8;
+    --concrete-line:#DBD7CD;
+    --ink:#1B1D1F;
+    --ink-soft:#565C60;
+    --green:#2F8F5B;
+    --white:#FFFFFF;
+    --radius:14px;
+    --bar-h:64px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    padding-bottom:var(--bar-h);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Archivo Black',sans-serif;
+    line-height:1.05;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--orange);
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 26px;
+    border-radius:9px;
+    font-weight:700;
+    font-size:15px;
+    border:none;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn:focus-visible{outline:3px solid var(--orange);outline-offset:2px;}
+  .btn-primary{background:var(--orange);color:var(--white);box-shadow:0 8px 20px -8px rgba(255,90,31,.6);}
+  .btn-primary:hover{background:var(--orange-dark);}
+  .btn-dark{background:var(--charcoal);color:var(--white);}
+  .btn-outline{background:transparent;color:var(--charcoal);border:2px solid var(--charcoal);}
+
+  /* hazard stripe divider */
+  .stripe{
+    height:10px;
+    background:repeating-linear-gradient(45deg,var(--orange) 0 14px, var(--charcoal) 14px 28px);
+  }
+
+  /* header */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:var(--white);
+    border-bottom:3px solid var(--orange);
+    box-shadow:0 2px 10px -6px rgba(0,0,0,.12);
+  }
+  .site-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1120px;margin:0 auto;
+  }
+  .logo{display:flex;align-items:center;gap:11px;color:var(--ink);}
+  .logo-mark{width:38px;height:38px;flex:none;}
+  .logo-text{font-family:'Archivo Black';font-size:19px;letter-spacing:-0.02em;}
+  nav.main-nav{display:flex;gap:30px;}
+  nav.main-nav a{
+    color:var(--ink-soft);font-weight:600;font-size:14.5px;
+    transition:color .15s;
+  }
+  nav.main-nav a:hover{color:var(--ink);}
+  .nav-call{
+    display:flex;align-items:center;gap:8px;
+    color:var(--ink);font-weight:700;font-size:14.5px;
+    font-family:'IBM Plex Mono';
+  }
+  .nav-call svg{width:16px;height:16px;flex:none;color:var(--orange);}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+  .burger span{display:block;width:24px;height:2.5px;background:var(--ink);margin:5px 0;border-radius:2px;}
+  .mobile-menu{display:none;background:var(--white);border-top:1px solid var(--concrete-line);padding:8px 24px 20px;}
+  .mobile-menu a{display:block;color:var(--ink);font-weight:600;padding:12px 0;border-bottom:1px solid var(--concrete-line);}
+  .mobile-menu.open{display:block;}
+
+  /* hero */
+  .hero{
+    background:var(--paper);
+    color:var(--ink);
+    padding:56px 0 90px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-120px;bottom:-140px;width:420px;height:420px;
+    background:radial-gradient(circle,rgba(255,90,31,.12),transparent 70%);
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:#FDEEE7;border:1px solid #FAD1BC;
+    color:var(--orange-dark);padding:8px 16px;border-radius:99px;
+    font-family:'IBM Plex Mono';font-size:13px;font-weight:600;
+    margin-bottom:22px;
+  }
+  .hero h1{font-size:44px;color:var(--ink);max-width:680px;}
+  .hero h1 span{color:var(--orange);}
+  .hero p.lead{margin-top:20px;color:var(--ink-soft);font-size:17px;max-width:560px;line-height:1.6;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;}
+  .hero-trust{
+    display:grid;grid-template-columns:repeat(4,auto);gap:22px 34px;
+    margin-top:48px;position:relative;z-index:2;
+  }
+  .trust-item{display:flex;align-items:center;gap:9px;color:var(--ink);font-size:14px;font-weight:600;}
+  .trust-item svg{width:19px;height:19px;color:var(--green);flex:none;}
+
+  /* devis card, overlaps hero */
+  .quote-wrap{max-width:1120px;margin:-56px auto 0;padding:0 24px;position:relative;z-index:3;}
+  .quote-card{
+    background:var(--white);border-radius:var(--radius);
+    box-shadow:0 24px 50px -20px rgba(20,20,20,.35);
+    padding:40px;display:grid;grid-template-columns:1fr 1.15fr;gap:40px;
+  }
+  .quote-info h2{font-size:26px;color:var(--ink);}
+  .quote-info p{margin-top:12px;color:var(--ink-soft);font-size:15px;line-height:1.6;}
+  .quote-info .mini-plate{margin-top:24px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .field input,.field textarea{
+    width:100%;padding:13px 14px;border-radius:9px;border:1.5px solid var(--concrete-line);
+    font-family:inherit;font-size:14.5px;background:#FBFAF8;color:var(--ink);
+  }
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--orange);background:var(--white);}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .quote-form textarea{min-height:88px;resize:vertical;}
+  .form-note{font-size:12.5px;color:var(--ink-soft);margin-top:10px;}
+  .form-success{
+    display:none;background:#EAF6EF;border:1.5px solid var(--green);color:#1F6A42;
+    padding:14px 16px;border-radius:9px;font-size:14px;font-weight:600;margin-top:14px;
+  }
+  .form-success.show{display:block;}
+
+  /* stats band */
+  .stats-band{background:var(--white);border-top:1px solid var(--concrete-line);border-bottom:1px solid var(--concrete-line);padding:44px 0;margin-top:70px;}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;}
+  .stat-num{font-family:'Archivo Black';font-size:34px;color:var(--orange);}
+  .stat-label{color:var(--ink-soft);font-size:13.5px;font-weight:600;margin-top:6px;}
+
+  /* section heading */
+  .section{padding:78px 0;}
+  .section-head{max-width:640px;margin-bottom:44px;}
+  .section-head h2{font-size:32px;margin-top:10px;}
+  .section-head p{margin-top:14px;color:var(--ink-soft);font-size:15.5px;line-height:1.6;}
+  .section-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+
+  /* service plate cards */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .plate{
+    position:relative;background:var(--white);border:1.5px solid var(--concrete-line);border-radius:12px;
+    padding:26px 24px 24px;overflow:hidden;
+  }
+  .plate::before{
+    content:"";position:absolute;inset:8px;border:1px solid rgba(0,0,0,.05);border-radius:8px;pointer-events:none;
+  }
+  .plate .rivet{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--concrete-line);}
+  .plate .rivet.tl{top:10px;left:10px;} .plate .rivet.tr{top:10px;right:10px;}
+  .plate .rivet.bl{bottom:10px;left:10px;} .plate .rivet.br{bottom:10px;right:10px;}
+  .plate-code{
+    position:absolute;top:14px;right:20px;font-family:'IBM Plex Mono';font-size:11.5px;
+    letter-spacing:.1em;color:var(--orange);font-weight:600;
+  }
+  .plate-icon{
+    width:44px;height:44px;border-radius:9px;background:#FDEEE7;
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  }
+  .plate-icon svg{width:22px;height:22px;color:var(--orange);}
+  .plate h3{font-family:'Inter';font-weight:800;font-size:17.5px;color:var(--ink);}
+  .plate p{margin-top:10px;color:var(--ink-soft);font-size:14px;line-height:1.55;}
+
+  /* chips bands */
+  .chip-band{background:var(--paper);padding:0 0 78px;}
+  .chip-sub{font-weight:700;font-size:14px;margin-bottom:14px;color:var(--ink);}
+  .chip-row{display:flex;flex-wrap:wrap;gap:10px;}
+  .chip{
+    padding:9px 16px;border-radius:99px;font-size:13.5px;font-weight:600;
+    background:var(--white);border:1.5px solid var(--concrete-line);color:var(--ink);
+    display:inline-flex;align-items:center;gap:7px;
+  }
+  .chip svg{width:15px;height:15px;color:var(--green);}
+  .chip-dark{background:var(--orange);color:var(--white);border-color:var(--orange);}
+  .chip-columns{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:28px;}
+
+  /* mini-pelle */
+  .minipelle{background:var(--paper);color:var(--ink);}
+  .minipelle .section-head p{color:var(--ink-soft);}
+  .mp-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;align-items:center;}
+  .mp-copy h2{font-size:32px;color:var(--ink);}
+  .mp-copy h2 span{color:var(--orange);}
+  .mp-copy p{margin-top:16px;color:var(--ink-soft);font-size:15.5px;line-height:1.65;}
+  .mp-cards{display:grid;gap:16px;}
+  .mp-card{
+    background:var(--white);border:1.5px solid var(--concrete-line);border-radius:12px;padding:22px 24px;
+  }
+  .mp-card .mp-tag{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;color:var(--ink);}
+  .mp-card .mp-tag svg{width:18px;height:18px;color:var(--orange);}
+  .mp-price{font-family:'Archivo Black';font-size:30px;color:var(--orange);margin-top:10px;}
+  .mp-price small{font-family:'Inter';font-size:14px;color:var(--ink-soft);font-weight:600;}
+  .mp-card .mp-note{margin-top:6px;font-size:13px;color:var(--ink-soft);}
+
+  /* why grid */
+  .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .why-card{background:var(--white);border:1.5px solid var(--concrete-line);border-radius:12px;padding:26px 22px;text-align:center;}
+  .why-icon{
+    width:52px;height:52px;border-radius:50%;background:#FDEEE7;margin:0 auto 16px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .why-icon svg{width:24px;height:24px;color:var(--orange);}
+  .why-card h3{font-family:'Inter';font-weight:800;font-size:15.5px;}
+  .why-card p{margin-top:8px;color:var(--ink-soft);font-size:13.5px;line-height:1.55;}
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start;}
+  .about-text p{color:var(--ink-soft);font-size:15.5px;line-height:1.7;margin-top:16px;}
+  .about-text .sub{font-weight:800;color:var(--ink);}
+  .callout{
+    margin-top:26px;background:#EAF6EF;border-left:4px solid var(--green);border-radius:0 10px 10px 0;
+    padding:20px 22px;font-size:14.5px;line-height:1.6;color:#1F5237;
+  }
+  .callout b{color:#154227;}
+  .about-plate{
+    background:var(--white);border:1.5px solid var(--concrete-line);border-radius:14px;padding:30px;color:var(--ink);
+  }
+  .about-plate .mono{color:var(--orange-dark);font-size:12px;letter-spacing:.12em;}
+  .about-plate h3{font-size:22px;margin-top:10px;color:var(--ink);}
+  .about-list{margin-top:20px;display:grid;gap:12px;}
+  .about-list div{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink-soft);}
+  .about-list svg{width:17px;height:17px;color:var(--green);flex:none;margin-top:2px;}
+
+  /* zones */
+  .zones{background:var(--paper);}
+  .zone-chip-grid{display:flex;flex-wrap:wrap;gap:12px;}
+  .zone-chip{
+    padding:12px 20px;border-radius:99px;background:var(--white);border:1.5px solid var(--concrete-line);
+    font-weight:700;font-size:14.5px;display:inline-flex;align-items:center;gap:9px;
+  }
+  .zone-chip svg{width:16px;height:16px;color:var(--orange);}
+  .zone-chip.hq{background:var(--white);color:var(--ink);border:2px solid var(--orange);}
+  .zone-chip.hq svg{color:var(--orange);}
+
+  /* faq */
+  .faq-list{display:grid;gap:12px;max-width:760px;}
+  .faq-item{background:var(--white);border:1.5px solid var(--concrete-line);border-radius:12px;overflow:hidden;}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;cursor:pointer;
+    padding:20px 22px;display:flex;justify-content:space-between;align-items:center;
+    font-weight:700;font-size:15.5px;color:var(--ink);font-family:inherit;
+  }
+  .faq-q svg{width:18px;height:18px;color:var(--orange);flex:none;transition:transform .2s;}
+  .faq-item.open .faq-q svg{transform:rotate(180deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-a p{padding:0 22px 20px;color:var(--ink-soft);font-size:14.5px;line-height:1.6;}
+
+  /* hours */
+  .hours-table{background:var(--white);border:1.5px solid var(--concrete-line);border-radius:12px;overflow:hidden;max-width:520px;}
+  .hours-row{display:flex;justify-content:space-between;padding:14px 22px;border-bottom:1px solid var(--concrete-line);font-size:14.5px;}
+  .hours-row:last-child{border-bottom:none;}
+  .hours-row span:first-child{font-weight:700;}
+  .hours-row span:last-child{font-family:'IBM Plex Mono';color:var(--green);font-weight:600;}
+  .hours-banner{
+    display:inline-flex;align-items:center;gap:10px;background:var(--orange);color:var(--white);
+    padding:12px 20px;border-radius:10px;font-weight:700;font-size:14.5px;margin-bottom:24px;
+  }
+  .hours-banner svg{width:18px;height:18px;color:var(--white);}
+
+  /* contact */
+  .contact{background:var(--white);color:var(--ink);border-top:1px solid var(--concrete-line);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;}
+  .contact-list{display:grid;gap:20px;}
+  .contact-row{display:flex;gap:16px;align-items:flex-start;}
+  .contact-ic{
+    width:44px;height:44px;border-radius:9px;background:#FDEEE7;flex:none;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-ic svg{width:20px;height:20px;color:var(--orange);}
+  .contact-row .label{font-size:12.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;font-weight:600;}
+  .contact-row .value{font-size:15.5px;font-weight:700;margin-top:3px;color:var(--ink);}
+  .map-frame{
+    border-radius:12px;overflow:hidden;border:1.5px solid var(--concrete-line);height:100%;min-height:280px;
+    background:
+      linear-gradient(var(--paper),var(--paper)),
+      repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 32px),
+      repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 1px,transparent 1px 32px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    padding:32px;gap:14px;
+  }
+  .map-frame .pin{width:46px;height:46px;color:var(--orange);}
+  .map-frame .map-addr{color:var(--ink);font-weight:700;font-size:15px;max-width:260px;}
+  .map-frame .map-sub{color:var(--ink-soft);font-size:13px;}
+
+  /* footer */
+  footer.site{background:var(--white);color:var(--ink-soft);padding:44px 0 34px;border-top:1px solid var(--concrete-line);}
+  .footer-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;}
+  .footer-nav{display:flex;gap:24px;flex-wrap:wrap;}
+  .footer-nav a{font-size:13.5px;font-weight:600;color:var(--ink);}
+  .footer-bottom{margin-top:30px;font-size:12.5px;color:var(--ink-soft);border-top:1px solid var(--concrete-line);padding-top:20px;}
+
+  /* sticky call bar */
+  .call-bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;height:var(--bar-h);
+    background:linear-gradient(90deg,var(--orange),var(--orange-dark));
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    font-weight:800;font-size:16px;color:var(--white);
+    box-shadow:0 -8px 24px -10px rgba(0,0,0,.35);
+  }
+  .call-bar svg{width:19px;height:19px;}
+
+  @media (max-width:900px){
+    nav.main-nav,.nav-call{display:none;}
+    .burger{display:block;}
+    .hero h1{font-size:33px;}
+    .quote-card{grid-template-columns:1fr;padding:26px;}
+    .quote-wrap{margin-top:-40px;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:28px;}
+    .services-grid{grid-template-columns:1fr 1fr;}
+    .chip-columns{grid-template-columns:1fr;gap:22px;}
+    .mp-grid{grid-template-columns:1fr;}
+    .why-grid{grid-template-columns:1fr 1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .field-row{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .services-grid{grid-template-columns:1fr;}
+    .why-grid{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .hero h1{font-size:28px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="site-inner">
+    <a class="logo" href="#accueil">
+      <svg class="logo-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="16" width="26" height="16" rx="2" fill="#FF5A1F"/>
+        <path d="M30 22H38L44 28V32H30V22Z" fill="#3D454D"/>
+        <circle cx="14" cy="35" r="4.5" fill="#171B1F" stroke="#EFEDE7" stroke-width="2"/>
+        <circle cx="36" cy="35" r="4.5" fill="#171B1F" stroke="#EFEDE7" stroke-width="2"/>
+      </svg>
+      <span class="logo-text">Benne direct</span>
+    </a>
+    <nav class="main-nav">
+      <a href="#services">Services</a>
+      <a href="#minipelle">Mini-pelle</a>
+      <a href="#zones">Zones</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-call" href="tel:0666923430">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      06 66 92 34 30
+    </a>
+    <button class="burger" id="burgerBtn" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#services">Services</a>
+    <a href="#minipelle">Mini-pelle</a>
+    <a href="#zones">Zones</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+    <a href="tel:0666923430">📞 06 66 92 34 30</a>
+  </div>
+</header>
+
+<section class="hero" id="accueil">
+  <div class="wrap">
+    <div class="hero-badge">🚛 Location de bennes 3m³ à 15m³</div>
+    <h1>Benne direct — location de bennes dans les <span>Pyrénées-Orientales</span></h1>
+    <p class="lead">Bennes gravats, tout-venant, déchets verts et évacuation de déchets de chantier. Livraison le matin, décharge comprise dans le prix, tri responsable en déchèterie.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#devis">Demander un devis gratuit</a>
+      <a class="btn btn-outline" href="tel:0666923430">Appeler — 06 66 92 34 30</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Décharge comprise</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Dépôt dès 8h00</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Tri en déchèterie</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>7j/7</div>
+    </div>
+  </div>
+</section>
+
+<div class="quote-wrap" id="devis">
+  <div class="quote-card">
+    <div class="quote-info">
+      <span class="eyebrow">Devis gratuit</span>
+      <h2 style="margin-top:8px;">Demandez votre devis</h2>
+      <p>Réponse rapide sous 24h, sans engagement. Décrivez votre besoin — type de benne, volume, type de déchets, dates — et nous revenons vers vous.</p>
+      <div class="mini-plate">
+        <div class="plate" style="padding:20px;background:var(--paper);border:1.5px solid var(--concrete-line);">
+          <span class="plate-code mono" style="color:var(--orange-dark);">BD·00</span>
+          <p style="color:var(--ink-soft);font-size:13.5px;">Un chantier urgent ? Appelez directement le <b style="color:var(--ink);">06 66 92 34 30</b>, disponible 7j/7 de 9h à 19h.</p>
+        </div>
+      </div>
+    </div>
+    <form class="quote-form" id="quoteForm">
+      <div class="field-row">
+        <div class="field"><label for="nom">Nom *</label><input id="nom" required type="text" placeholder="Votre nom"></div>
+        <div class="field"><label for="tel">Téléphone *</label><input id="tel" required type="tel" placeholder="06 12 34 56 78"></div>
+      </div>
+      <div class="field"><label for="email">Email *</label><input id="email" required type="email" placeholder="vous@exemple.fr"></div>
+      <div class="field"><label for="ville">Adresse ou ville d'intervention</label><input id="ville" type="text" placeholder="Ex : Perpignan"></div>
+      <div class="field"><label for="besoin">Décrivez votre besoin *</label><textarea id="besoin" required placeholder="Type de benne, volume, type de déchets, dates..."></textarea></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;">Envoyer ma demande</button>
+      <p class="form-note">En envoyant ce formulaire, vous acceptez d'être recontacté par Benne direct.</p>
+      <div class="form-success" id="formSuccess">✓ Merci, votre demande a bien été enregistrée. Nous vous recontactons sous 24h.</div>
+    </form>
+  </div>
+</div>
+
+<div class="stats-band">
+  <div class="wrap stats-grid">
+    <div><div class="stat-num mono">6</div><div class="stat-label">Services de bennes</div></div>
+    <div><div class="stat-num mono">1</div><div class="stat-label">Département couvert</div></div>
+    <div><div class="stat-num mono">7j/7</div><div class="stat-label">Ouvert toute la semaine</div></div>
+    <div><div class="stat-num mono">24h</div><div class="stat-label">Devis gratuit</div></div>
+  </div>
+</div>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Nos prestations</span>
+      <h2>Nos services de location de bennes</h2>
+      <p>Une solution adaptée à chaque type de déchet et à chaque chantier dans les Pyrénées-Orientales.</p>
+    </div>
+    <div class="services-grid">
+      <div class="plate"><span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span><span class="plate-code mono">BD·01</span>
+        <div class="plate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg></div>
+        <h3>Bennes à gravats</h3>
+        <p>Pour l'évacuation de gravats, sable et déchets de démolition issus de vos travaux.</p>
+      </div>
+      <div class="plate"><span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span><span class="plate-code mono">BD·02</span>
+        <div class="plate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h13v13H3zM16 8h4l3 3v5h-7V8zM5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></div>
+        <h3>Bennes tout-venant</h3>
+        <p>Idéales pour vos déchets industriels banals (DIB) et encombrants mélangés. Bennes de 6m³ et 10m³.</p>
+      </div>
+      <div class="plate"><span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span><span class="plate-code mono">BD·03</span>
+        <div class="plate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c-4 3-6 7-6 10a6 6 0 0 0 12 0c0-3-2-7-6-10z"/></svg></div>
+        <h3>Bennes déchets verts</h3>
+        <p>Bennes végétaux de 6m³ ou 9m³ pour l'évacuation de tailles, branchages et déchets de jardin.</p>
+      </div>
+      <div class="plate"><span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span><span class="plate-code mono">BD·04</span>
+        <div class="plate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/><path d="M2 5h2l1.6 9.6a2 2 0 0 0 2 1.6H17a2 2 0 0 0 2-1.6L20.4 8H6"/><path d="M14 4l4 4-4 4"/></svg></div>
+        <h3>Évacuation de chantier</h3>
+        <p>Enlèvement et traitement de tous vos déchets de construction et de rénovation, triés en déchèterie.</p>
+      </div>
+      <div class="plate"><span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span><span class="plate-code mono">BD·05</span>
+        <div class="plate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>Livraison &amp; enlèvement</h3>
+        <p>Dépôt de votre benne dès 8h00 le matin et enlèvement dès que vous avez terminé. Simple et ponctuel.</p>
+      </div>
+      <div class="plate"><span class="rivet tl"></span><span class="rivet tr"></span><span class="rivet bl"></span><span class="rivet br"></span><span class="plate-code mono">BD·06</span>
+        <div class="plate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18M12 2v4M2 12h4M12 22v-4M22 12h-4"/></svg></div>
+        <h3>Débarras d'encombrants</h3>
+        <p>Débarras rapide de meubles, métaux, plastiques, cartons et bois. Nous nous occupons de tout.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="chip-band">
+  <div class="wrap chip-columns">
+    <div>
+      <div class="chip-sub">Types de déchets acceptés</div>
+      <div class="chip-row">
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Gravats</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Terre</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Végétaux</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Benne à métaux</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Plastique</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Carton</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Bois</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>DIB</span>
+      </div>
+    </div>
+    <div>
+      <div class="chip-sub">Volumes disponibles</div>
+      <div class="chip-row">
+        <span class="chip chip-dark">3m³ gravats</span>
+        <span class="chip chip-dark">3m³ terre</span>
+        <span class="chip chip-dark">DIB 6m³</span>
+        <span class="chip chip-dark">DIB 10m³</span>
+        <span class="chip chip-dark">Végétaux 6m³/9m³</span>
+        <span class="chip chip-dark">Jusqu'à 15m³</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section minipelle" id="minipelle">
+  <div class="wrap mp-grid">
+    <div class="mp-copy">
+      <span class="eyebrow">Terrassement</span>
+      <h2>Location de <span>mini-pelle 2t6</span></h2>
+      <p>Avec ou sans chauffeur, notre mini-pelle 2,6 tonnes vous accompagne sur vos travaux de terrassement et d'aménagement dans les Pyrénées-Orientales.</p>
+      <a class="btn btn-primary" href="tel:0666923430" style="margin-top:24px;">Réserver la mini-pelle</a>
+    </div>
+    <div class="mp-cards">
+      <div class="mp-card">
+        <div class="mp-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>Avec chauffeur</div>
+        <div class="mp-price">350€ <small>/ jour</small></div>
+        <div class="mp-note">Tarif tout compris pour la journée.</div>
+      </div>
+      <div class="mp-card">
+        <div class="mp-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Sans chauffeur</div>
+        <div class="mp-price">160€ <small>/ jour</small></div>
+        <div class="mp-note">Location seule, mini-pelle 2,6 tonnes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pourquoi">
+  <div class="wrap">
+    <div class="section-head center">
+      <span class="eyebrow">Nos engagements</span>
+      <h2>Pourquoi choisir Benne direct ?</h2>
+      <p>Un service de location de bennes simple, ponctuel et respectueux de l'environnement.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Décharge comprise</h3><p>Le traitement de vos déchets est inclus dans le prix affiché, sans surprise.</p></div>
+      <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18M12 2v4M2 12h4M12 22v-4M22 12h-4"/></svg></div><h3>Tri responsable</h3><p>Chaque benne est triée en déchèterie pour un traitement respectueux de l'environnement.</p></div>
+      <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><h3>Dépôt dès 8h00</h3><p>Vos bennes sont livrées le matin pour que vous puissiez travailler sans attendre.</p></div>
+      <div class="why-card"><div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><h3>Disponible 7j/7</h3><p>Nous intervenons tous les jours de la semaine, de 9h à 19h.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="apropos" style="background:var(--paper);">
+  <div class="wrap about-grid">
+    <div class="about-text">
+      <span class="eyebrow">À propos</span>
+      <h2 style="margin-top:10px;">Votre spécialiste de la benne dans les Pyrénées-Orientales</h2>
+      <p>Benne direct met à votre disposition une large gamme de bennes de 3m³ à 15m³ ainsi qu'une mini-pelle 2t6, pour répondre à tous vos besoins de chantier, de rénovation ou de débarras.</p>
+      <p><span class="sub">Pourquoi choisir nos bennes 10m³ ?</span> Idéales pour vos gros chantiers, elles offrent un volume optimal pour les déchets volumineux.</p>
+      <div class="callout"><b>Un engagement écologique :</b> chaque benne est triée en déchèterie, garantissant un traitement responsable et respectueux de l'environnement.</div>
+    </div>
+    <div class="about-plate">
+      <span class="mono">Benne direct — fiche</span>
+      <h3>Ce qui nous distingue</h3>
+      <div class="about-list">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Bennes déposées le matin dès 8h00</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Décharge comprise dans le prix affiché</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Location de mini-pelle avec ou sans chauffeur</div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Zone d'intervention : Pyrénées-Orientales (66)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section zones" id="zones">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Zone d'intervention</span>
+      <h2>Nous intervenons dans les Pyrénées-Orientales</h2>
+      <p>Location et livraison de bennes dans tout le département (66) et ses environs.</p>
+    </div>
+    <div class="zone-chip-grid">
+      <span class="zone-chip hq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Perpignan</span>
+      <span class="zone-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Canet-en-Roussillon</span>
+      <span class="zone-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Argelès-sur-Mer</span>
+      <span class="zone-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Saint-Estève</span>
+      <span class="zone-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Cabestany</span>
+      <span class="zone-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Céret</span>
+      <span class="zone-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Thuir</span>
+      <span class="zone-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Le Soler</span>
+      <span class="zone-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Rivesaltes</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" style="background:var(--paper);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2>Vos questions sur la location de bennes</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">Quels volumes de bennes proposez-vous ?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Nous proposons des bennes de 3m³ à 15m³ : gravats et terre en 3m³, DIB en 6m³ et 10m³, déchets verts en 6m³ et 9m³.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">La décharge est-elle comprise dans le prix ?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Oui, le traitement de vos déchets en déchèterie est toujours inclus dans le prix affiché, sans surprise.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">À quelle heure la benne est-elle livrée ?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Vos bennes sont déposées le matin dès 8h00, pour que vous puissiez travailler sans attendre.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Louez-vous une mini-pelle ?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Oui, une mini-pelle 2t6 est disponible avec chauffeur (350€/jour) ou sans chauffeur (160€/jour).</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Dans quelles zones intervenez-vous ?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Nous intervenons dans tout le département des Pyrénées-Orientales (66) et ses environs.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="hours-banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Ouvert 7j/7 — 9h00 à 19h00</div>
+    <div class="hours-table">
+      <div class="hours-row"><span>Lundi</span><span>09:00 - 19:00</span></div>
+      <div class="hours-row"><span>Mardi</span><span>09:00 - 19:00</span></div>
+      <div class="hours-row"><span>Mercredi</span><span>09:00 - 19:00</span></div>
+      <div class="hours-row"><span>Jeudi</span><span>09:00 - 19:00</span></div>
+      <div class="hours-row"><span>Vendredi</span><span>09:00 - 19:00</span></div>
+      <div class="hours-row"><span>Samedi</span><span>09:00 - 19:00</span></div>
+      <div class="hours-row"><span>Dimanche</span><span>09:00 - 19:00</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <span class="eyebrow">Contact</span>
+      <h2 style="margin-top:10px;color:var(--ink);">Contactez Benne direct</h2>
+      <p style="margin-top:14px;color:var(--ink-soft);font-size:15.5px;">Une question, une réservation ? Écrivez-nous ou appelez-nous directement.</p>
+      <div class="contact-list" style="margin-top:28px;">
+        <div class="contact-row">
+          <div class="contact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div><div class="label">Téléphone</div><div class="value">06 66 92 34 30</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><div class="label">Adresse</div><div class="value">HLM Victor Dalbiez, bât. 5, appart. 148, Perpignan</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-5.447-2.724A1 1 0 0 1 3 16.382V5.618a1 1 0 0 1 1.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0 0 21 18.382V7.618a1 1 0 0 0-.553-.894L15 4m0 13V4m0 0L9 7"/></svg></div>
+          <div><div class="label">Zone d'intervention</div><div class="value">Pyrénées-Orientales</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <div><div class="label">Horaires</div><div class="value">7j/7 — 9h00 à 19h00</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="map-frame">
+      <svg class="pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div class="map-addr">HLM Victor Dalbiez, bât. 5, appart. 148, Perpignan</div>
+      <div class="map-sub">Zone d'intervention : Pyrénées-Orientales</div>
+      <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&query=HLM+Victor+Dalbiez+Perpignan" target="_blank" rel="noopener" style="margin-top:6px;">Ouvrir dans Maps</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap footer-inner">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="16" width="26" height="16" rx="2" fill="#FF5A1F"/>
+        <path d="M30 22H38L44 28V32H30V22Z" fill="#3D454D"/>
+        <circle cx="14" cy="35" r="4.5" fill="#171B1F" stroke="#EFEDE7" stroke-width="2"/>
+        <circle cx="36" cy="35" r="4.5" fill="#171B1F" stroke="#EFEDE7" stroke-width="2"/>
+      </svg>
+      <span class="logo-text" style="color:var(--ink);">Benne direct</span>
+    </div>
+    <nav class="footer-nav">
+      <a href="#services">Services</a>
+      <a href="#minipelle">Mini-pelle</a>
+      <a href="#zones">Zones</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+  <div class="wrap footer-bottom">© Benne direct — Location de bennes dans les Pyrénées-Orientales (66). Tous droits réservés.</div>
+</footer>
+
+<a class="call-bar" href="tel:0666923430">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  Appeler — 06 66 92 34 30
+</a>
+
+<script>
+  const burger=document.getElementById('burgerBtn');
+  const mobileMenu=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+
+  document.querySelectorAll('.faq-item').forEach(item=>{
+    const q=item.querySelector('.faq-q');
+    const a=item.querySelector('.faq-a');
+    q.addEventListener('click',()=>{
+      const isOpen=item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(o=>{o.classList.remove('open');o.querySelector('.faq-a').style.maxHeight=null;});
+      if(!isOpen){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+    });
+  });
+
+  document.getElementById('quoteForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    document.getElementById('formSuccess').classList.add('show');
+    this.reset();
+  });
+</script>
+</body>
+</html>
